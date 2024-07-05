@@ -25,12 +25,23 @@
             const thickness = parseFloat(document.getElementById('thickness').value);
             const width = parseFloat(document.getElementById('width').value);
             const length = parseFloat(document.getElementById('length').value);
+
+            if (isNaN(thickness) || isNaN(width) || isNaN(length)) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
             let density, totalWeight;
 
             if (material === 'steel') {
                 density = parseFloat(document.getElementById('densitySteel').value);
                 const coatingThickness = parseFloat(document.getElementById('coatingThickness').value);
                 const densityZinc = parseFloat(document.getElementById('densityZinc').value);
+
+                if (isNaN(density) || isNaN(coatingThickness) || isNaN(densityZinc)) {
+                    alert('Please fill in all required fields for steel.');
+                    return;
+                }
 
                 const surfaceArea = (2 * (length * width + length * thickness + width * thickness)) / 1000000;
                 const volumeCoating = surfaceArea * (coatingThickness / 1000000);
@@ -46,6 +57,11 @@
                 document.getElementById('coatingThicknessDisplay').innerText = coatingThickness + ' microns';
             } else if (material === 'copper') {
                 density = parseFloat(document.getElementById('densityCopper').value);
+
+                if (isNaN(density)) {
+                    alert('Please fill in all required fields for copper.');
+                    return;
+                }
 
                 const volumeCopper = (thickness * width * length) / 1000000000;
                 totalWeight = volumeCopper * density;
@@ -65,7 +81,7 @@
         }
     </script>
 </head>
-<body>
+<body onload="updateForm()">
     <header>
         <h1>Material Weight Calculator</h1>
     </header>
